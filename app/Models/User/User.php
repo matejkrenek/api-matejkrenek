@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\User;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Kanban\Kanban;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,7 +19,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
     ];
@@ -41,4 +42,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Relationships
+     */
+    public function kanbans()
+    {
+        return $this->belongsToMany(Kanban::class, 'user_kanbans', 'user_id', 'kanban_id');
+    }
+
+    /**
+     * Mutators & Accesors
+     */
+    protected function password(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => bcrypt($value)
+        );
+    }
 }

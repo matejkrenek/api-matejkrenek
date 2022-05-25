@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Kanban\Kanban;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,13 +14,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('kanban_tags', function (Blueprint $table) {
             $table->id();
-            $table->string('username', 100)->unique();
-            $table->string('email', 100)->unique();
-            $table->string('password', 100)->unique();
-            $table->rememberToken();
-            $table->timestamps();
+            $table->foreignIdFor(Kanban::class, 'kanban_id')->constrained('kanbans')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('name', 100);
+            $table->string('color')->nullable();
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('kanban_tags');
     }
 };

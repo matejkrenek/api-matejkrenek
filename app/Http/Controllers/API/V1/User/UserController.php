@@ -3,22 +3,19 @@
 namespace App\Http\Controllers\API\V1\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Services\V1\User\UserService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function all(Request $request)
+    public function __construct(protected UserService $userService)
     {
-        return [
-            'users' => User::all()
-        ];
     }
 
-    public function get(Request $request, User $user)
+    public function getKanbans(Request $request)
     {
-        return [
-            'user' => $user
-        ];
+        $kanbans = $this->userService->kanbans($request);
+
+        return $kanbans;
     }
 }

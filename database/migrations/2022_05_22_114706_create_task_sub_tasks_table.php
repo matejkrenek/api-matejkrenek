@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Task\Task;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,13 +14,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('task_sub_tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('username', 100)->unique();
-            $table->string('email', 100)->unique();
-            $table->string('password', 100)->unique();
-            $table->rememberToken();
-            $table->timestamps();
+            $table->foreignIdFor(Task::class, 'task_id')->constrained('tasks')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('name', 100);
+            $table->boolean('is_completed')->default(false);
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('task_sub_tasks');
     }
 };

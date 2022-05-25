@@ -18,7 +18,7 @@ class API
 
         Route::middleware('api')->prefix('/' . self::version())->group(function () use ($files) {
             foreach ($files as $file) {
-                Route::prefix('/' . explode('.', $file->getFilename())[1])->group($file->getPathname());
+                Route::group([], $file->getPathname());
             }
         });
     }

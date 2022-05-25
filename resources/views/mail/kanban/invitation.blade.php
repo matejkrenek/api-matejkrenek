@@ -1,0 +1,1 @@
+<p><strong>{{ $invitation->author->username }}</strong> vás pozval do kanbanu <strong>{{ $invitation->kanban->name }}</strong></p>

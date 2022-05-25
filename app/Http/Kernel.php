@@ -21,6 +21,8 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\PrefixVersion::class,
+        \App\Http\Middleware\ForceJson::class,
     ];
 
     /**
@@ -49,10 +51,12 @@ class Kernel extends HttpKernel
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'abilities' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
+        'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+        'guest' => \App\Http\Middleware\GuestMiddleware::class,
     ];
 }

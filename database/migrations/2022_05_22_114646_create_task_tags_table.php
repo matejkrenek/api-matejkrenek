@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Kanban\KanbanTag;
+use App\Models\Task\Task;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,13 +15,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('task_tags', function (Blueprint $table) {
             $table->id();
-            $table->string('username', 100)->unique();
-            $table->string('email', 100)->unique();
-            $table->string('password', 100)->unique();
-            $table->rememberToken();
-            $table->timestamps();
+            $table->foreignIdFor(KanbanTag::class, 'tag_id')->constrained('kanban_tags')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignIdFor(Task::class, 'task_id')->constrained('tasks')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('task_tags');
     }
 };
