@@ -8,4 +8,12 @@ Route::prefix('/kanban')->controller(Kanban\KanbanController::class)->middleware
     Route::post('/{id}/invite', 'invite');
     Route::post('/invitation/{token}/accept', 'accept');
     Route::post('/invitation/{token}/reject', 'accept');
+
+    Route::post('/{kanban}/column', 'addColumn');
+    Route::put('/{kanban}/column/{column}', 'editColumn');
+    Route::delete('/{kanban}/column/{column}', 'deleteColumn');
+
+    Route::post('/{kanban}/column/{column}/task', 'addTask');
+    Route::put('/{kanban}/column/{column}/task/{task}', 'editTask');
+    Route::delete('/{kanban}/column/{column}/task/{task}', 'deleteTask');
 });

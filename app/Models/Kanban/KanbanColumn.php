@@ -2,6 +2,7 @@
 
 namespace App\Models\Kanban;
 
+use App\Models\Task\Task;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +10,7 @@ class KanbanColumn extends Model
 {
     use HasFactory;
 
-    const CREATED_AT = null;
+    const UPDATED_AT = null;
 
     /**
      * The attributes that are mass assignable.
@@ -22,4 +23,9 @@ class KanbanColumn extends Model
         'color',
         'order',
     ];
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'column_id');
+    }
 }
