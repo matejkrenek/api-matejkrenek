@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Kanban\Kanban;
+use App\Policies\V1\Kanban\KanbanPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Kanban::class => KanbanPolicy::class,
     ];
 
     /**

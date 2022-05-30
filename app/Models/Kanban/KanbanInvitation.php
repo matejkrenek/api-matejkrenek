@@ -21,6 +21,7 @@ class KanbanInvitation extends Model
         'kanban_id',
         'author_id',
         'email',
+        'token',
     ];
 
     /**

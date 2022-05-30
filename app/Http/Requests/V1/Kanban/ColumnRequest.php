@@ -25,7 +25,7 @@ class ColumnRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['nullable', Rule::requiredIf(!$this->column), Rule::unique('kanban_columns', 'name')->where('kanban_id', $this->kanban->id)],
+            'name' => ['nullable', Rule::requiredIf(!$this->column), Rule::unique('kanban_columns', 'name')->where('kanban_id', $this->kanban->id)->ignore($this->column ? $this->column->name : '', 'name')],
             'order' => ['nullable'],
             'color' => ['nullable'],
         ];
