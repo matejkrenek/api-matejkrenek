@@ -24,7 +24,7 @@ class InvitationRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email']
+            'user_id' => ['required', 'exists:users,id']
         ];
     }
 }

@@ -20,7 +20,7 @@ class KanbanInvitation extends Model
     protected $fillable = [
         'kanban_id',
         'author_id',
-        'email',
+        'user_id',
         'token',
     ];
 
@@ -35,5 +35,10 @@ class KanbanInvitation extends Model
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
