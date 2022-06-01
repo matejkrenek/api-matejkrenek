@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Kanban\Kanban;
+use App\Models\Kanban\KanbanInvitation;
+use App\Policies\V1\Kanban\KanbanInvitationPolicy;
 use App\Policies\V1\Kanban\KanbanPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -15,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Kanban::class => KanbanPolicy::class,
+        KanbanInvitation::class => KanbanInvitationPolicy::class
     ];
 
     /**

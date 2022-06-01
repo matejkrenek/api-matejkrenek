@@ -4,11 +4,11 @@ use App\Http\Controllers\API\V1\Kanban;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/kanban')->middleware('auth:sanctum')->group(function () {
-    Route::controller(Kanban\KanbanController::class)->middleware('can:view,kanban')->group(function () {
-        Route::get('/{kanban}', 'get');
-        Route::post('/{kanban}/invite', 'invite');
-        Route::post('/invitation/{token}/accept', 'accept');
-        Route::post('/invitation/{token}/reject', 'accept');
+    Route::controller(Kanban\KanbanController::class)->group(function () {
+        Route::get('/{kanban}', 'get')->can('view', 'kanban');
+        Route::post('/{kanban}/invite', 'invite')->can('view', 'kanban');
+        Route::post('/invitation/{kanbanInvitation:token}/accept', 'accept')->can('accept', 'kanbanInvitation');
+        Route::post('/invitation/{kanbanInvitation:token}/reject', 'reject')->can('reject', 'kanbanInvitation');
     });
 
     Route::controller(Kanban\ColumnController::class)->group(function () {

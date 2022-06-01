@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Models\Kanban\Kanban;
+use App\Models\Kanban\KanbanInvitation;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -49,6 +50,11 @@ class User extends Authenticatable
     public function kanbans()
     {
         return $this->belongsToMany(Kanban::class, 'user_kanbans', 'user_id', 'kanban_id');
+    }
+
+    public function invitations()
+    {
+        return $this->hasMany(KanbanInvitation::class, 'user_id');
     }
 
     /**

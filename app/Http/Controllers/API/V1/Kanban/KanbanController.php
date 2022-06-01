@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Kanban\InvitationRequest;
 use App\Http\Resources\V1\Kanban\KanbanResource;
 use App\Models\Kanban\Kanban;
+use App\Models\Kanban\KanbanInvitation;
 use App\Services\V1\Kanban\KanbanService;
 use Illuminate\Http\Request;
 use Symfony\Component\Mailer\Exception\TransportException;
@@ -33,6 +34,36 @@ class KanbanController extends Controller
 
         return [
             'message' => 'email sended'
+        ];
+    }
+
+    public function accept(KanbanInvitation $kanbanInvitation)
+    {
+        try {
+            $this->kanbanService->acceptInvitation($kanbanInvitation);
+        } catch (TransportException $e) {
+            return [
+                'message' => $e->getMessage()
+            ];
+        }
+
+        return [
+            'message' => 'invitation accepted'
+        ];
+    }
+
+    public function reject(KanbanInvitation $kanbanInvitation)
+    {
+        try {
+            $this->kanbanService->rejectInvitation($kanbanInvitation);
+        } catch (TransportException $e) {
+            return [
+                'message' => $e->getMessage()
+            ];
+        }
+
+        return [
+            'message' => 'invitation accepted'
         ];
     }
 }

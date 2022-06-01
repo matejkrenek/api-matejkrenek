@@ -5,9 +5,10 @@ namespace App\Services\V1\Kanban;
 use App\Mail\Kanban\KanbanInvitation as MailKanbanInvitation;
 use App\Models\Kanban\Kanban;
 use App\Models\Kanban\KanbanInvitation;
+use App\Models\User\UserKanban;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class KanbanService
@@ -25,5 +26,20 @@ class KanbanService
             'token' => Str::random(40),
             'user_id' => (int)$request->get('user_id')
         ]);
+    }
+
+    public function acceptInvitation(KanbanInvitation $kanbanInvitation) {
+        DB::transaction(function($kanbanInvitation) {
+            UserKanban::create([
+                'user_id' => $kanbanInvitation->user_id,
+                'kanban_id' => $kanbanInvitation->kanban_id,
+            ]);
+
+            $kanbanInvitation->delete();
+        });
+    }
+    
+    public function rejectInvitation(KanbanInvitation $kanbanInvitation) {
+        $kanbanInvitation->delete();
     }
 }
