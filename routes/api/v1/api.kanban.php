@@ -18,8 +18,8 @@ Route::prefix('/kanban')->middleware('auth:sanctum')->group(function () {
     });
 
     Route::controller(Kanban\TaskController::class)->group(function () {
-        Route::post('/{kanban}/column/{column}/task', 'add');
-        Route::put('/{kanban}/column/{column}/task/{task}', 'edit');
-        Route::delete('/{kanban}/column/{column}/task/{task}', 'delete');
+        Route::post('/{kanban}/task', 'add');
+        Route::put('/{kanban}/task/{task}', 'edit');
+        Route::delete('/{kanban}/task/{task}', 'delete');
     });
 });
