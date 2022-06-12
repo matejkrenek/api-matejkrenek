@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 class TaskService
 {
 
-    public function add(Request $request, KanbanColumn $column)
+    public function add(Request $request)
     {
-        Task::create([
+        $column = KanbanColumn::find((int)$request->get('column_id'));
+        return Task::create([
             'column_id' => $column->id,
             'author_id' => $request->user()->id,
+            'executor_id' => $request->has('executor_id') ? $request->get('executor_id') : null,
             'name' => $request->get('name'),
             'row' => $column->tasks->count() + 1,
             'description' => $request->has('description') ? $request->get('description') : null,

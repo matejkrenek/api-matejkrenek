@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(KanbanColumn::class, 'column_id')->constrained('kanban_columns')->onDelete('restrict')->onUpdate('cascade');
             $table->foreignIdFor(User::class, 'author_id')->constrained('users')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreignIdFor(User::class, 'executor_id')->constrained('users')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreignIdFor(User::class, 'executor_id')->nullable()->constrained('users')->onDelete('restrict')->onUpdate('cascade');
             $table->integer('row');
             $table->string('name', 100);
             $table->text('description')->nullable();

@@ -11,7 +11,7 @@ class ColumnService
 
     public function add(Request $request, Kanban $kanban)
     {
-        KanbanColumn::create([
+        return KanbanColumn::create([
             'kanban_id' => $kanban->id,
             'name' => $request->get('name'),
             'color' => '#eeeeee',

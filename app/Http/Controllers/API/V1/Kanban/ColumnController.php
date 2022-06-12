@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1\Kanban;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Kanban\ColumnRequest;
+use App\Http\Resources\V1\Kanban\KanbanColumnResource;
 use App\Models\Kanban\Kanban;
 use App\Models\Kanban\KanbanColumn;
 use App\Services\V1\Kanban\ColumnService;
@@ -15,19 +16,24 @@ class ColumnController extends Controller
     {
     }
 
+    public function getAll(Request $request, Kanban $kanban)
+    {
+        return KanbanColumnResource::collection($kanban->columns);
+    }
+
     public function add(ColumnRequest $request, Kanban $kanban)
     {
         try {
-            $this->columnService->add($request, $kanban);
+            $column = $this->columnService->add($request, $kanban);
+            return [
+                'message' => 'column added',
+                'data' => new KanbanColumnResource($column)
+            ];
         } catch (\Throwable $e) {
             return [
                 'message' => $e->getMessage()
             ];
         }
-
-        return [
-            'message' => 'column added'
-        ];
     }
 
     public function edit(ColumnRequest $request, Kanban $kanban, KanbanColumn $column)
@@ -41,11 +47,12 @@ class ColumnController extends Controller
         }
 
         return [
-            'message' => 'column updated'
+            'message' => 'column updated',
+            'data' => new KanbanColumnResource($column)
         ];
     }
 
-    public function delete(KanbanColumn $column)
+    public function delete(Kanban $kanban, KanbanColumn $column)
     {
         try {
             $this->columnService->delete($column);

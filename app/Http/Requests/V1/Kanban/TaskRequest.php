@@ -26,6 +26,7 @@ class TaskRequest extends FormRequest
     {
         return [
             'name' => ['nullable', Rule::requiredIf(!$this->task), 'string'],
+            'column_id' => ['nullable', Rule::requiredIf(!$this->task), Rule::exists('kanban_columns', 'id')->where('kanban_id', $this->kanban->id)],
             'description' => ['nullable', 'string'],
             'executor_id' => ['nullable', Rule::exists('users', 'id')],
             'row' => ['nullable', 'number'],

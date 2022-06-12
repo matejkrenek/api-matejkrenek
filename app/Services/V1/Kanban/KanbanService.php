@@ -18,6 +18,16 @@ class KanbanService
         return $request->user()->kanbans()->find($request->id);
     }
 
+    public function edit(Request $request, Kanban $kanban): void
+    {
+        $kanban->fill([
+            'name' => $request->get('name'),
+            'description' => $request->get('description'),
+        ]);
+
+        $kanban->update($kanban->getDirty());
+    }
+
     public function invite(Request $request, Kanban $kanban): void
     {
         $invitation = KanbanInvitation::create([
@@ -28,8 +38,9 @@ class KanbanService
         ]);
     }
 
-    public function acceptInvitation(KanbanInvitation $kanbanInvitation) {
-        DB::transaction(function($kanbanInvitation) {
+    public function acceptInvitation(KanbanInvitation $kanbanInvitation)
+    {
+        DB::transaction(function ($kanbanInvitation) {
             UserKanban::create([
                 'user_id' => $kanbanInvitation->user_id,
                 'kanban_id' => $kanbanInvitation->kanban_id,
@@ -38,8 +49,9 @@ class KanbanService
             $kanbanInvitation->delete();
         });
     }
-    
-    public function rejectInvitation(KanbanInvitation $kanbanInvitation) {
+
+    public function rejectInvitation(KanbanInvitation $kanbanInvitation)
+    {
         $kanbanInvitation->delete();
     }
 }

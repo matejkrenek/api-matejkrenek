@@ -2,6 +2,7 @@
 
 namespace App\Models\Kanban;
 
+use App\Models\Task\Task;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +28,11 @@ class Kanban extends Model
     public function columns()
     {
         return $this->hasMany(KanbanColumn::class, 'kanban_id');
+    }
+
+    public function tasks()
+    {
+        return $this->hasManyThrough(Task::class, KanbanColumn::class, 'kanban_id', 'column_id');
     }
 
     public function author()

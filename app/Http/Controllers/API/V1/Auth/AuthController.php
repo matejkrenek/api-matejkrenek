@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\RegisterRequest;
+use App\Http\Resources\V1\User\UserResource;
 use App\Services\V1\Auth\AuthService;
 use Illuminate\Http\Request;
 
@@ -27,6 +28,11 @@ class AuthController extends Controller
         $user = $this->authService->login($request);
 
         return $user;
+    }
+
+    public function me(Request $request)
+    {
+        return new UserResource($request->user());
     }
 
     public function logout(Request $request)
