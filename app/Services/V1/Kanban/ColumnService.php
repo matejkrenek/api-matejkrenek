@@ -21,11 +21,42 @@ class ColumnService
 
     public function edit(Request $request, KanbanColumn $column)
     {
-        $column->update([
+        $column->fill([
             'name' => $request->has('name') ? $request->get('name') : $column->name,
             'color' => $request->has('color') ? $request->get('color') : $column->color,
-            'order' => $request->has('order') ? $request->get('order') : $column->order
         ]);
+
+        if ($request->has('order') && $column->order !== (int)$request->get('order')) {
+            $direction = (int)$request->get('order') > $column->order ? 'right' : 'left';
+
+            switch ($direction) {
+                case 'right':
+                    $columns = KanbanColumn::where('kanban_id', $column->kanban_id)->where('order', '>', $column->order)->where('order', '<=', (int)$request->get('order'))->get();
+                    $column->order = (int)$request->get('order');
+                    $column->save();
+
+                    foreach ($columns as $col) {
+                        $col->order -= 1;
+                        $col->save();
+                    }
+
+                    return;
+                case 'left':
+                    $columns = KanbanColumn::where('kanban_id', $column->kanban_id)->where('order', '<', $column->order)->where('order', '>=', (int)$request->get('order'))->get();
+                    $column->order = (int)$request->get('order');
+                    $column->save();
+
+                    foreach ($columns as $col) {
+                        $col->order += 1;
+                        $col->save();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        $column->save();
     }
 
     public function delete(KanbanColumn $column)

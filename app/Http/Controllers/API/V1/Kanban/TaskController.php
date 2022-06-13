@@ -37,7 +37,7 @@ class TaskController extends Controller
         }
     }
 
-    public function edit(TaskRequest $request, Task $task)
+    public function edit(TaskRequest $request, Kanban $kanban, Task $task)
     {
         try {
             $this->taskService->edit($request, $task);
@@ -48,11 +48,12 @@ class TaskController extends Controller
         }
 
         return [
-            'message' => 'task updated'
+            'message' => 'task updated',
+            'data' => new KanbanTaskResource($task)
         ];
     }
 
-    public function deleteTask(Task $task)
+    public function delete(Kanban $kanban, Task $task)
     {
         try {
             $this->taskService->delete($task);

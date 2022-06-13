@@ -18,7 +18,7 @@ class ColumnController extends Controller
 
     public function getAll(Request $request, Kanban $kanban)
     {
-        return KanbanColumnResource::collection($kanban->columns);
+        return KanbanColumnResource::collection($kanban->columns()->orderBy('order')->get());
     }
 
     public function add(ColumnRequest $request, Kanban $kanban)

@@ -19,7 +19,7 @@ class KanbanTaskResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "decription" => $this->decription,
+            "description" => $this->description,
             "column" => new KanbanColumnResource($this->column),
             "author" => new UserResource($this->author),
             "executor" => new UserResource($this->executor),
